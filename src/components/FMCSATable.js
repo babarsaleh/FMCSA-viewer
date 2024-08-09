@@ -159,7 +159,7 @@ const FMCSATable = () => {
       setDisplayedRecords(totalRecords);
       setPage(0);
     }
-  }, [filterText, columnFilters]);
+  }, [filterText, columnFilters, totalRecords]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
