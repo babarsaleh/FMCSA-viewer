@@ -1,0 +1,25 @@
+.header-span {
+    display: inline-block;
+    height: 156px !important; 
+    line-height: 156px; 
+  }
+
+  .MuiTableCell-root {
+    padding: 10px !important;
+  }
+  
+  .MuiTableHead-root .MuiTableCell-head {
+    height: 56px;
+  }
+  .MuiButtonBase-root.MuiTableSortLabel-root {
+    height: 80px !important; 
+  }
+
+  .custom-sort-label {
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-sort-label .MuiTableSortLabel-icon {
+    opacity: 1 !important;
+  }
