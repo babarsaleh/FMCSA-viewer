@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -147,13 +147,6 @@ const FMCSATable = () => {
   };
 
   useEffect(() => {
-    // Update displayed records based on filtered data
-    const filtered = filterData(sortedData(data));
-    setDisplayedRecords(filtered.length);
-    setPage(0); // Reset to first page
-  }, [filterText, columnFilters, data]);
-
-  useEffect(() => {
     if (!filterText && !Object.keys(columnFilters).length) {
       // Reset pagination and displayedRecords when filters are cleared
       setDisplayedRecords(totalRecords);
@@ -187,7 +180,7 @@ const FMCSATable = () => {
     });
   };
 
-  const filterData = (data) => {
+  const filterData = useCallback((data) => {
     return data.filter((row) => {
       const globalSearch = Object.values(row).some(
         (value) =>
@@ -203,9 +196,9 @@ const FMCSATable = () => {
 
       return globalSearch && columnFilterSearch;
     });
-  };
+  }, [filterText, columnFilters]);
 
-  const sortedData = (data) => {
+  const sortedData = useCallback((data) => {
     if (!orderBy) return data;
     return data.sort((a, b) => {
       const aValue = a[orderBy] || "";
@@ -215,8 +208,13 @@ const FMCSATable = () => {
       }
       return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
     });
-  };
-
+  }, [order, orderBy]);
+  useEffect(() => {
+    // Update displayed records based on filtered data
+    const filtered = filterData(sortedData(data));
+    setDisplayedRecords(filtered.length);
+    setPage(0); // Reset to first page
+  }, [filterText, columnFilters, data, filterData, sortedData ]);
   const filteredData = filterData(sortedData(data));
   const displayedData = filteredData.slice(
     page * rowsPerPage,
@@ -335,7 +333,7 @@ const FMCSATable = () => {
       <Button
         onClick={handleGenerateShareLink}
         variant="contained"
-        color="secondary"
+        color="primary"
         sx={{ marginLeft: "15px" }}
       >
         Generate Share Link
