@@ -138,7 +138,7 @@ const FMCSATable = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Paper>
+    </Paper> 
   );
 };
 
